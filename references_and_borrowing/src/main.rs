@@ -13,6 +13,9 @@ fn main() {
     }
     let r2 = &mut s;
     println!("I am the mutable reference r2:{}",r2);
+
+    let rules = no_dangle();
+    println!("These are the rules of references\n{}", rules);
 }
 
 fn calculate_length(s: &String) -> usize {
@@ -21,4 +24,10 @@ fn calculate_length(s: &String) -> usize {
 
 fn change(a_string: &mut String) {
     a_string.push_str(", world!");
+}
+
+
+fn no_dangle() -> String {
+    let s = String::from("Recap:\n - At any given time, you can have either one mutable reference or any number of immutable references.\n - References must always be valid.");
+    s
 }
