@@ -11,6 +11,14 @@ fn main() {
     let word = first_word_with_slice(&s1);
     println!("Hope this works as expected: {}", word);
 
+
+    let string_slice = "This is of Type &str btw";
+    // Because it already is a string_slice we don't need the reference &
+    // already a slice
+    let result = best_signature(string_slice);
+    let string_result = best_signature(&s1[..]);
+    println!("Interesting:{} and from the String:{}",result, string_result);
+
 }
 
 fn first_word(s: &String) -> usize {
@@ -39,4 +47,14 @@ fn first_word_with_slice(s: &String) -> &str {
     // Otherwise return the entire string as a slice, 
     // [..] omits the start and end index
     &s[..]
+}
+
+fn best_signature(s: &str) -> &str {
+    let bytes = s.as_bytes();
+    for (i, &item) in bytes.iter().enumerate() {
+        if item == b' ' {
+            return &s[..i]
+        }
+    }
+    s
 }
