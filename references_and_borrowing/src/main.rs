@@ -3,8 +3,15 @@ fn main() {
     let len = calculate_length(&s1);
 
     println!("The length of '{}' is {}.", s1, len);
+
+    let mut s = String::from("hello");
+    change(&mut s);
 }
 
 fn calculate_length(s: &String) -> usize {
     s.len()
+}
+
+fn change(a_string: &mut String) {
+    a_string.push_str(", world!");
 }
