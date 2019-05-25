@@ -1,46 +1,53 @@
-struct User {
-    username: String,
-    email: String,
-    sign_in_count: u64,
-    active: bool,
+// Need the annotation in order to print out Debug information
+#[derive(Debug)]
+struct Rectangle  {
+    width: u32,
+    height: u32,
 }
 
 fn main() {
-    // the entire instance must be marked as mutable, not
-    // only a single value
-    let mut user1 = User {
-        email: String::from("someone@example.com"),
-        username: String::from("someusername123"),
-        active: true,
-        sign_in_count: 1,
-    };
-    user1.email = String::from("anotheremail@example.com");
+    // single vars for each 
+    let width1 = 30;
+    let height1 = 50;
 
+    println!(
+        "The area of the rectangle is {} square pixels.",
+        area_weird(width1, height1)
+        );
+ 
+    // Tuple example
+    let rect1 = (30,50);
+
+    println!(
+        "The area of the rectangle is {} square pixels.",
+        area_tuple(rect1)
+        );
+
+    // Nice struct
+    let rect2 = Rectangle { width: 30, height: 50 };
+
+    println!(
+        "The area of the rectangle is {} square pixels.",
+        area(&rect2)
+        );
+
+    // Will not print as structs do not have Display by default.
+    // Hence the specifier: '{:?}'
+    println!("rect2 is {:?}", rect2);
     
-    let user2 = User {
-        email: String::from("another@examples.com"),
-        username: String::from("anotherusername"),
-        // struct update syntax, '..' specifies that the remaining fields not 
-        // explicitly set, should have the same value as the fields in the given
-        // instance
-        ..user1
-    };
-
-    // tuple structs, useful when giving tuples names
-    struct Color(i32,i32,i32);
-    struct Point(i32,i32,i32);
-
-    let black = Color(0,0,0);
-    let origin = Point(0,0,0);
-
+    // Using the specifier {:#?} makes the output easier to read.
+    println!("\nrect2 is {:#?}", rect2);
 }
 
+fn area_weird(width: u32, height: u32) -> u32 {
+    width * height
+} 
 
-fn build_user(email: String, username: String) -> User {
-    User {
-        email,
-        username,
-        active: true,
-        sign_in_count: 1,
-    }
+fn area_tuple(dimension: (u32, u32)) -> u32 {
+    // weird with .0 and .1 magic numbers
+    dimension.0 * dimension.1
+}
+
+fn area(rectangle: &Rectangle) -> u32 {
+    rectangle.width * rectangle.height
 }
