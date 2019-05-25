@@ -1,0 +1,7 @@
+[package]
+name = "codewars"
+version = "0.1.0"
+authors = ["ben <bm@wps.de>"]
+edition = "2018"
+
+[dependencies]
