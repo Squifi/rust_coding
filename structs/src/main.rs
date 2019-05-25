@@ -1,53 +1,51 @@
-// Need the annotation in order to print out Debug information
 #[derive(Debug)]
-struct Rectangle  {
+struct Rectangle {
     width: u32,
     height: u32,
 }
 
+// Implementation block for the Rectangle struct
+// Helps keep things organised, so future users will not
+// have to search for an area function, but know where to 
+// find the methods.
+impl Rectangle {
+    // The method borrows self and main keeps the ownership
+    // We do not want to write to the Object, just read the data.
+    fn area(&self) -> u32 {
+        self.width * self.height
+    }
+
+    fn can_hold(&self, other_rect: &Rectangle) -> bool {
+        self.width > other_rect.width &&
+            self.height > other_rect.height
+    }
+
+    // Signature of the method does not have to contain self
+    // &self or &mut self. If the self param is missing these methods are called
+    // Associated functions
+    fn square(size: u32) -> Rectangle {
+        Rectangle { width: size, height: size }
+    }
+}
+
 fn main() {
-    // single vars for each 
-    let width1 = 30;
-    let height1 = 50;
+    let rect = Rectangle { width: 30, height: 50 };
 
     println!(
-        "The area of the rectangle is {} square pixels.",
-        area_weird(width1, height1)
-        );
- 
-    // Tuple example
-    let rect1 = (30,50);
-
-    println!(
-        "The area of the rectangle is {} square pixels.",
-        area_tuple(rect1)
+        "\nThe area of the rectangle is {} square pixels.\n",
+        // Rust has automatic referencing and dereferencing here
+        // no need for &, & mut or * here. puh :)
+        rect.area()
         );
 
-    // Nice struct
-    let rect2 = Rectangle { width: 30, height: 50 };
+    let rect1 = Rectangle { width: 30, height: 50 };
+    let rect2 = Rectangle { width: 10, height: 40 };
+    let rect3 = Rectangle { width: 60, height: 45 };
 
-    println!(
-        "The area of the rectangle is {} square pixels.",
-        area(&rect2)
-        );
+    println!("Can rect1 hold rect2? {}", rect1.can_hold(&rect2));
+    println!("Can rect1 hold rect3? {}", rect1.can_hold(&rect3));
 
-    // Will not print as structs do not have Display by default.
-    // Hence the specifier: '{:?}'
-    println!("rect2 is {:?}", rect2);
-    
-    // Using the specifier {:#?} makes the output easier to read.
-    println!("\nrect2 is {:#?}", rect2);
-}
+    // use Rectangle::associated_function to access associated functions.
+    println!("\nCreated a nice square rectangle {:#?}", Rectangle::square(40));
 
-fn area_weird(width: u32, height: u32) -> u32 {
-    width * height
-} 
-
-fn area_tuple(dimension: (u32, u32)) -> u32 {
-    // weird with .0 and .1 magic numbers
-    dimension.0 * dimension.1
-}
-
-fn area(rectangle: &Rectangle) -> u32 {
-    rectangle.width * rectangle.height
 }
